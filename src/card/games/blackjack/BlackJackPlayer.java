@@ -1,7 +1,9 @@
 package card.games.blackjack;
-import card.utils.UserInteractions.Console;
-import card.utils.UserInteractions.Menu;
-import card.utils.UserInteractions.Parser;
+import card.user.Hand;
+import card.user.Purchases;
+import card.user.User;
+import card.utils.UI.Console;
+import card.utils.UI.Menu;
 import card.utils.generators.RandomIdGenerator;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import java.util.LinkedHashMap;
 * @version 1.1
 * @since   20-11-24
 */
-public class Player implements Hand, Purchases {
+public class BlackJackPlayer implements Hand, Purchases, User {
 
     protected HashMap<String, ArrayList<String>> cards = new HashMap<>();
     protected final static int BLACKJACK = 21;
@@ -41,9 +43,9 @@ public class Player implements Hand, Purchases {
      * Every other field above is default/pre-assigned except for the cards field.
      * Note: the cards field instantiates a hashmap of key:string-hand-type value:Arraylist<String>
     * @param name The only parameter expected
-    * @see Dealer#dealRound(LinkedHashMap) Only place Player gets instantiated.
+    * @see BlackJackDealer#dealRound(LinkedHashMap) Only place Player gets instantiated.
     */
-    public Player (String name) {
+    public BlackJackPlayer(String name) {
         this.name = name;
         id = RandomIdGenerator.id(name);
         cards.put(NORMAL_HAND, new ArrayList<>());
@@ -53,7 +55,7 @@ public class Player implements Hand, Purchases {
     /**
     * Player can bet chips
     *  NOTE: Chips are not subtracted from bet during the hit, but the bet field is set.
-    * @see Player#bet
+    * @see BlackJackPlayer#bet
     * @param chips Chips to bet
     * @return boolean -> lets calling class know if the bet is valid
     */
@@ -72,6 +74,13 @@ public class Player implements Hand, Purchases {
 //    * @see Menu#displayPlayer(String, String, int, int, int, int, boolean, HashMap)
     */
     public void display() { /*Menu.displayPlayer(name, id, chips, winnings(), cardSum[0], cardSum[1], didSplit, cards);*/ }
+
+
+
+    @Override
+    public boolean didWin() {
+        return false;
+    }
 
 
     /**
@@ -94,7 +103,7 @@ public class Player implements Hand, Purchases {
     /**
     * Returns true or false if player can play based on the chips field.
     * @see Purchases#hasChips()
-     * @see Dealer#dispense(LinkedHashMap)
+     * @see BlackJackDealer#dispense(LinkedHashMap)
      * @see #chips
     * @return ...
     */
@@ -103,8 +112,8 @@ public class Player implements Hand, Purchases {
     /**
     * Returns the chips gained or lost by player, by subtracting the amount of chips purchased
     * to the amount chips currently in the player's possession.
-    * @see Player#chips
-    * @see Player#chipsPurchased
+    * @see BlackJackPlayer#chips
+    * @see BlackJackPlayer#chipsPurchased
     * @return int The amount of chips player profited
     */
     public int winnings() { return chips - chipsPurchased; }
@@ -135,7 +144,7 @@ public class Player implements Hand, Purchases {
     public void hit(String card, boolean isSplit) {
         int index = isSplit ? 1 : 0;
         this.addCard(card, isSplit);
-        cardSum[index] += Parser.cardValue(card, this.cardSum[index]);
+        cardSum[index] += BlackJackParser.cardValue(card, this.cardSum[index]);
     }
 
 
@@ -179,9 +188,14 @@ public class Player implements Hand, Purchases {
      */
     public void doubleDown() { doubleDown = true;}
 
+    @Override
+    public void addCard(String card) {
+
+    }
+
     /**
      * Clears a player's hand, boolean, integer values for the next round.
-     * @see Dealer#dispense(LinkedHashMap)
+     * @see BlackJackDealer#dispense(LinkedHashMap)
      * @return Nothing
      */
     public void clear() {
@@ -196,20 +210,25 @@ public class Player implements Hand, Purchases {
         cards.get("split").clear();
     }
 
+    @Override
+    public void displayHand() {
+
+    }
+
 
     public void scan(boolean isSplit) {
         ArrayList<String> aces = new ArrayList<>();
         int index = isSplit ? 1 : 0;
         cardSum[index] = 0;
         for(String card: cards.get(isSplit ? SPLIT_HAND : NORMAL_HAND)) {
-            if(Parser.isAce(card)) {
+            if(BlackJackParser.isAce(card)) {
                 aces.add(card);
             } else {
-                cardSum[index] += Parser.cardValue(card, cardSum[index]);
+                cardSum[index] += BlackJackParser.cardValue(card, cardSum[index]);
             }
         }
         for(String ace: aces) {
-            cardSum[index] += Parser.cardValue(ace, cardSum[index]);
+            cardSum[index] += BlackJackParser.cardValue(ace, cardSum[index]);
         }
         Console.log("Scan count: " + cardSum[index]);
     }

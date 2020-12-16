@@ -1,8 +1,6 @@
-package card.utils.UserInteractions;
+package card.materials;
 
-import card.materials.Deck;
-import card.games.blackjack.Player;
-import java.util.LinkedHashMap;
+import card.utils.UI.Menu;
 
 /**
 * <h1>Calculator</h1>
@@ -15,7 +13,8 @@ import java.util.LinkedHashMap;
 * @version 1.1
 * @since   20-11-26
 */
-public class Calculator extends Menu {
+public interface Calculator {
+
 
 
 }

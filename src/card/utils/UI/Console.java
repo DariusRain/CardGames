@@ -1,9 +1,41 @@
-package card.utils.UserInteractions;
-import java.util.HashMap;
-import java.util.ArrayList;
+package card.utils.UI;
+import card.materials.Parser;
 
-public class Menu extends Console {
+import java.util.Scanner;
 
+// In charge of inputting & outputting to the user.
+public class Console {
+
+    // Every instantiated class will use this variable for input
+    private static Scanner input = new Scanner(System.in);
+
+    // Every instantiated class will use this variable for output
+    // --> output will keep concatenating previous elements with hyphens
+    public static String output;
+
+    public static void clearScreen() {
+        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.flush();
+    }
+
+    public static void log(String s) {
+        System.out.println(s);
+        output += s + "-";
+    }
+
+    public static void logf(String s) {
+        System.out.print(s);
+        output += s + "-";
+    }
+
+    public static String input(String message) {
+        System.out.print(message);
+        return input.nextLine();
+    }
+
+    public static String input() {
+        return input.nextLine();
+    }
     // Returns false if Y or y is not.
     public static boolean choice(String message) {
         return Parser.compare(input(message + " (Y/N): ").toUpperCase().strip().trim(), "^Y$");
@@ -46,17 +78,5 @@ public class Menu extends Console {
         return askForInt(message);
 
     }
-
-    public static void welcome(String gameName) {
-        log("****************( Welcome to "+ gameName +"! )****************");
-    }
-
-//    public static void message(String msg) { log(msg); }
-
-//    public static void newRound() {
-//        log("New round starting, new players may join!");
-//    }
-
-
 
 }

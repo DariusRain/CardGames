@@ -1,11 +1,11 @@
-package card.utils.UserInteractions;
+package card.materials;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
 
-    private static final int FACE_CARD_VALUE = 10;
-
+    private static int FACE_CARD_VALUE = 10;
+    private static int ACE_VALUE = 1;
     /**
     * Compares any string to another with regexp
     * @param toParse
@@ -26,33 +26,10 @@ public class Parser {
 
     public static int handleNumber(String toParse) {return Integer.parseInt(toParse.replaceAll("[♡♣♠♢]", ""));}
 
-    public static int handleAce(int cardSum) {
-        if (cardSum + 11 <= 21) {
-            return 11;
-        } else {
-            return 1;
-        }
-    }
+
+
 
     public static int handleFace() {return FACE_CARD_VALUE;}
 
-    public static boolean isBlackJack(int cardSum) { return cardSum == 21; }
-
-    public static int cardValue(String card, int cardSum) {
-
-        if (isAce(card)) {
-            return handleAce(cardSum);
-        }
-
-        if (isFace(card)) {
-           return handleFace();
-        }
-
-        if (isNumber(card)) {
-            return handleNumber(card);
-        }
-
-        return 0;
-    }
 
 }

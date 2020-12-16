@@ -1,5 +1,6 @@
 package card.materials;
-import card.utils.UserInteractions.Menu;
+import card.materials.Deck;
+import card.utils.UI.Menu;
 import card.utils.generators.RandomCardGenerator;
 import java.util.HashSet;
 import java.util.Set;

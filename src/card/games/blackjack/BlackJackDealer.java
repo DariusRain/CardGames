@@ -1,11 +1,10 @@
 package card.games.blackjack;
 
 import card.materials.InfiniteDeck;
-import card.utils.UserInteractions.Calculator;
-import card.utils.UserInteractions.Console;
-import card.utils.UserInteractions.Parser;
-import card.materials.Table;
-import card.utils.UserInteractions.Menu;
+import card.user.Hand;
+import card.utils.UI.Console;
+//import card.materials.Table;
+import card.utils.UI.Menu;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -17,23 +16,23 @@ import java.util.Map;
 *   This class contains Deck and methods that handle players in the game,
 *   this would be located in the Table class
 * </p>
-* @see card.materials.Table
+//* @see card.materials.Table
 * @author  Darius Rain
 * @version 1.1
 * @since   20-11-14
 */
-public class Dealer extends Player implements Hand {
+public class BlackJackDealer extends BlackJackPlayer implements Hand {
 
     private InfiniteDeck deck = new InfiniteDeck();
     private static final int RULE = 17;
 
-    public Dealer(String name) {
+    public BlackJackDealer(String name) {
         super(name);
     }
 
     /**
     * Checks if dealer has exceeded the limit of 17
-    * @see Dealer#RULE
+    * @see BlackJackDealer#RULE
     * @return boolean
     */
     public boolean limit() {
@@ -43,10 +42,10 @@ public class Dealer extends Player implements Hand {
     /**
     * Takes input and passes the integer as the user's buy in.
     * @param user -> Uses the buy in method since classes only within package.players can call it.
-    * @see Player#buyIn(int)
+    * @see BlackJackPlayer#buyIn(int)
     * @see Menu#askForInt(String)
     */
-    public void getBuyIn(Player user) {
+    public void getBuyIn(BlackJackPlayer user) {
         int numberOfChips = Menu.askForInt("Buy in: $");
         user.buyIn(numberOfChips);
         Console.log("Your ID: " + user.id);
@@ -58,12 +57,12 @@ public class Dealer extends Player implements Hand {
     * bet then the dealing continues on.
     * NOTE: Dealer also deals to itself
     * @param players -> {@code LinkedHashMap<String,Player>}
-    * @see Player
+    * @see BlackJackPlayer
     * @see LinkedHashMap
 //    * @see BlackJack#start()
 //    * @see Calculator#bet(int)
     */
-    public void dealRound(LinkedHashMap<String, Player> players) {
+    public void dealRound(LinkedHashMap<String, BlackJackPlayer> players) {
         // https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
         deck.reset();
         int dealCount = 0;
@@ -73,7 +72,7 @@ public class Dealer extends Player implements Hand {
             while (iterator.hasNext()) {
                 // This returns the key and value in object.
                 Map.Entry obj = (Map.Entry)iterator.next();
-                Player onPlayer = (Player) obj.getValue();
+                BlackJackPlayer onPlayer = (BlackJackPlayer) obj.getValue();
 
 
                 if (dealCount == 1) {
@@ -83,7 +82,7 @@ public class Dealer extends Player implements Hand {
                 }
 
                 onPlayer.hit(deck.draw(), false);
-                if (Parser.isBlackJack(onPlayer.cardSum[0])) {
+                if (BlackJackParser.isBlackJack(onPlayer.cardSum[0])) {
                     Console.log("****** ( Blackjack Bonus ) ******");
                     onPlayer.blackjack = true;
                     Console.logf(onPlayer.name + " -> ");
@@ -93,7 +92,7 @@ public class Dealer extends Player implements Hand {
 
             // This is the the Dealer's hand
             this.hit(deck.draw(), false);
-            if (Parser.isBlackJack(this.cardSum[0])) {
+            if (BlackJackParser.isBlackJack(this.cardSum[0])) {
                 this.blackjack = true;
                 Console.logf(this.name + " -> ");
 //                Menu.blackJack();
@@ -108,11 +107,11 @@ public class Dealer extends Player implements Hand {
      * and asks each player if they want to hit. Then the dealer hits himself
      * based on sum being less than 17.
      * @param players Linked hashmap of players to be iterated through.
-     * @see Table
+//     * @see Table
 //     * @see Calculator#deliverHit(Player, Deck)
 //     * @see BlackJack#start()
     */
-    public void dealHits(LinkedHashMap<String, Player> players) {
+    public void dealHits(LinkedHashMap<String, BlackJackPlayer> players) {
 
         // https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
         Iterator iterator = players.entrySet().iterator();
@@ -120,7 +119,7 @@ public class Dealer extends Player implements Hand {
         while (iterator.hasNext()) {
 
             Map.Entry obj = (Map.Entry) iterator.next();
-            Player onPlayer = (Player) obj.getValue();
+            BlackJackPlayer onPlayer = (BlackJackPlayer) obj.getValue();
             if (!onPlayer.blackjack) {
                 Menu.log("Dealer card: " + cards.get("normal").get(0));
 //                Calculator.deliverHit(onPlayer, deck);
@@ -142,14 +141,14 @@ public class Dealer extends Player implements Hand {
 //    * @see BlackJack#start()
 //    * @see Calculator#determineWinner(Player, Dealer)
     */
-    public void dispense(LinkedHashMap<String, Player> players) {
+    public void dispense(LinkedHashMap<String, BlackJackPlayer> players) {
             Console.clearScreen();
             Console.log("Game Results: ");
             Iterator iterator = players.entrySet().iterator();
 
             while (iterator.hasNext()) {
                 Map.Entry obj = (Map.Entry)iterator.next();
-                Player onPlayer = (Player) obj.getValue();
+                BlackJackPlayer onPlayer = (BlackJackPlayer) obj.getValue();
 //                Calculator.determineWinner(onPlayer, this);
             }
 
@@ -159,4 +158,17 @@ public class Dealer extends Player implements Hand {
 
     }
 
+
+    @Override
+    public boolean didWin() {
+        return false;
+    }
+
+
+
+    @Override
+    public void addCard(String card){
+
+        ;
+    }
 }
