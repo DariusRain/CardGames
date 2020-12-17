@@ -10,7 +10,6 @@ import java.util.*;
 public class GoFishTable implements Table {
     public static final int MAX_SIZE = 5;
     public static final int MIN_SIZE = 2;
-    private int bookCount = 0;
     private int onPlayer = 0;
     private List<GoFishPlayer> players = new ArrayList<>();
 
@@ -28,12 +27,6 @@ public class GoFishTable implements Table {
 
     public StandardDeck getDeck() { return deck;}
 
-    public void updateBookCount() {
-        bookCount = 0;
-        for (GoFishPlayer user: players) {
-            bookCount += user.getBooks();
-        }
-    }
 
     public void displayPlayers() {
         int count = 0;
@@ -44,9 +37,6 @@ public class GoFishTable implements Table {
         }
     }
 
-    public int getBookCount() {
-        return bookCount;
-    }
 
     public GoFishPlayer nextPlayer() {
         if (onPlayer == players.size()) {

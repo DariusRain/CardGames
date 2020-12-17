@@ -77,12 +77,11 @@ public class GoFish {
 
             Console.log("Go fish!!!");
             requester.addCard(table.getDeck().draw());
-            requester.checkBooks();
         }
     }
 
     public void start() {
-        while(table.getBookCount() != 13) {
+        while(table.getDeck().getIndex() <= 52) {
             playerTurn();
         }
     }
