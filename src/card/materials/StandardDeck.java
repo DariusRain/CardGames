@@ -36,6 +36,9 @@ public class StandardDeck implements Deck {
 
     public void test() {
         init();
-        System.out.println(cards);
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

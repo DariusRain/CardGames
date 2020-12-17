@@ -10,7 +10,7 @@ public class GoFishHand implements Hand {
 
     private HashMap<String, ArrayList<String>> cards = new HashMap<>();
     private int cardCount = 0;
-
+    private int pairs = 0;
     private ArrayList<String> giveAway = new ArrayList<>();
 
     public ArrayList<String> getGiveAway() {
@@ -23,32 +23,29 @@ public class GoFishHand implements Hand {
 
     public boolean hasMatch(String cardType) {
         if(cards.containsKey(cardType)) {
-            Console.log("Has" + cardType + "(s)!");
+            Console.log("Player has " + cardType + "(s)!");
             giveAway = cards.get(cardType);
             cards.remove(cardType);
             return true;
         }
-        Console.log("Does not have " + cardType + "(s)!");
+        Console.log("Player does not have " + cardType + "(s)!");
         return false;
     }
 
 
-    public int checkBooks() {
+    private void checkPairs() {
         Iterator iterator = cards.entrySet().iterator();
-        int bookCount = 0;
+//        int bookCount = 0;
         while (iterator.hasNext()) {
             Map.Entry obj = (Map.Entry) iterator.next();
             ArrayList<String> cardGroup = (ArrayList<String>)(obj.getValue());
-            if (cardGroup.size() == 4) {
-                Console.log("BOOK");
-                bookCount += 1;
-                Console.log(bookCount +"");
+            if (2 == cardGroup.size()) {
+                Console.log("Pair found in " + (obj.getKey()));
+                pairs += 1;
                 iterator.remove();
             }
         }
-        Console.log(bookCount +"");
-l
-        return bookCount;
+
 
     }
 
@@ -58,6 +55,7 @@ l
         cards.putIfAbsent(cardType, new ArrayList<>());
         cards.get(cardType).add(GoFishParser.cardSuit(card));
         cardCount += 1;
+        checkPairs();
     }
 
     @Override
@@ -69,5 +67,7 @@ l
     }
 
 
-
+    public int getPairs() {
+        return pairs;
+    }
 }

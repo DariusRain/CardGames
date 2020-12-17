@@ -14,19 +14,17 @@ public class GoFishPlayer extends GoFishHand implements User {
 
     protected HashMap<String, ArrayList<String>> cards = new HashMap<>();
     private boolean goFish = false;
-    private int books = 0;
     private String name;
     private String id;
 
     public GoFishPlayer(String name) {
-
         this.name = name;
         id = RandomIdGenerator.id(name);
     }
 
-    public int getBooks() {
-        return books;
-    }
+//    public int getBooks() {
+//        return books;
+//    }
     public String getId() {
         return id;
     }
@@ -36,8 +34,7 @@ public class GoFishPlayer extends GoFishHand implements User {
     }
     @Override
     public void display() {
-        books += checkBooks();
-        Console.log("{ Player= [" + name + "], Cards=[" + handSize() + "], Books=[" + books + "], ID=[" + id +"]}");
+        Console.log("{ Player= [" + name + "], Cards=[" + handSize() + "], Pairs=[" + getPairs() + "], ID=[" + id +"]}");
     }
 
     @Override
