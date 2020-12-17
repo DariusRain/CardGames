@@ -1,7 +1,6 @@
 package card.games.blackjack;
 
-import card.utils.UserInteractions.Menu;
-import card.materials.Table;
+//import card.materials.Table;
 //import blackjack.Dealer;
 /**
 * <h1>BlackJack</h1>
@@ -15,17 +14,17 @@ import card.materials.Table;
  * @github https://www.github.com/DariusRain/Java-Blackjack
  */
 public class BlackJack {
-
-    private Table gameTable = new Table();
-    private boolean initialGame = true;
+//
+//    private Table gameTable = new Table();
+//    private boolean initialGame = true;
 
 
 /**
  * Runs a loop that calls methods from the table class representing each step
  * of the process in a Blackjack game, where Table holds the dealer and the players.
  * @see Table
- * @see Dealer
- * @see Player
+ * @see BlackJackDealer
+ * @see BlackJackPlayer
  * @return void
  */
 //    public void start() {

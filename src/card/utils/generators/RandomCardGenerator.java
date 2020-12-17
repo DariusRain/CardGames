@@ -1,6 +1,9 @@
 package card.utils.generators;
 
 //import RandomNumberGenerator;
+
+import card.materials.Parser;
+
 /**
 * <h1>CardGenerator</h1>
 * <p>
@@ -9,8 +12,8 @@ package card.utils.generators;
  *   to give the user the comfort of readability. Cards will be parsed as values using the Parser class and the methods
  *   it contains.
 * </p>
- * @see card.utils.UserInteractions.Parser
- * @see card.utils.UserInteractions.Parser#cardValue(String, int)
+ * @see Parser
+// * @see Parser#(String, int)
 * @author  Darius Rain
 * @version 1.1
 * @since   20-11-24

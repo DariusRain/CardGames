@@ -20,7 +20,6 @@ public class SynchronousCardGenerator implements CardGenerator {
     */
    public String face() {
       if (onCard <= 10) {
-         System.out.println(onCard);
          return onCard + "";
       } else {
 //         faceValue = RandomNumberGenerator.generate(FACES.length);
