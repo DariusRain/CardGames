@@ -22,49 +22,68 @@ public class GoFish {
 
     public GoFish() {
         initPlayers();
+        initDeal();
     }
 
     private void initPlayers() {
-        while (Console.choice("New Player (Y)Yes/(N)No?")) {
+        while ((Console.choice("New Player (Y)Yes/(N)No?") || table.getPlayers().size() < table.MIN_SIZE) && !table.full()) {
             String name = Console.askForString("Name: ");
+
             table.addPlayer(new GoFishPlayer(name));
         }
     }
 
-    private void runRound() {
-        table.displayPlayers();
-        GoFishPlayer currentPlayer = table.nextPlayer();
-        Console.logf("On player >> ");
-        currentPlayer.display();
-        currentPlayer.displayHand();
-        request(currentPlayer);
+    private void initDeal() {
+        table.getDeck().reset();
+        int amountOfCardsDealt = table.getPlayers().size() < 4 ? 7 : 5;
+        while (amountOfCardsDealt-->0) {
+            for (GoFishPlayer user: table.getPlayers()) {
+                System.out.println(user);
+                user.addCard(table.getDeck().draw());
+            }
+        }
     }
 
-    private boolean request(GoFishPlayer requester) {
+    private void playerTurn() {
+        table.displayPlayers();
+        GoFishPlayer currentPlayer = table.nextPlayer();
+        Console.log("\n\nOn player >>");
+        currentPlayer.display();
+        request(currentPlayer);
+
+    }
+
+    private void request(GoFishPlayer requester) {
         int cardTypeByNumber = 0;
+        requester.displayHand();
         while(13 < cardTypeByNumber || cardTypeByNumber < 1) {
             cardTypeByNumber = Console.askForInt("Request card type (1-13) (Ace-King):");
         }
         String cardType = GoFishParser.cardByNumber(cardTypeByNumber);
         int playerIndex = -1;
         int tableSize = table.getPlayers().size();
-        while (tableSize < playerIndex || playerIndex < 0) {
+        while (tableSize <= playerIndex || -1 == playerIndex) {
             playerIndex =  Console.askForInt("Request from (Number): ") - 1;
         }
         boolean hasCardType = table.getPlayers().get(playerIndex).hasMatch(cardType);
         if (hasCardType) {
-            for(String card: table.getPlayers().get(playerIndex).getGiveAway()) {
-                requester.addCard(card);
+            for(String suit: table.getPlayers().get(playerIndex).getGiveAway()) {
+                requester.addCard(suit+cardType);
             }
             table.getPlayers().get(playerIndex).clearGiveAway();
-            return true;
+            request(requester);
+
+        } else {
+
+            Console.log("Go fish!!!");
+            requester.addCard(table.getDeck().draw());
+            requester.checkBooks();
         }
-        return false;
     }
 
     public void start() {
         while(table.getBookCount() != 13) {
-            runRound();
+            playerTurn();
         }
     }
 }

@@ -3,6 +3,7 @@ package card.games.gofish;
 import card.user.Hand;
 import card.user.User;
 import card.utils.UI.Console;
+import card.utils.generators.RandomIdGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +18,11 @@ public class GoFishPlayer extends GoFishHand implements User {
     private String name;
     private String id;
 
-    public GoFishPlayer(String name) { this.name = name; }
+    public GoFishPlayer(String name) {
+
+        this.name = name;
+        id = RandomIdGenerator.id(name);
+    }
 
     public int getBooks() {
         return books;
@@ -31,8 +36,8 @@ public class GoFishPlayer extends GoFishHand implements User {
     }
     @Override
     public void display() {
-        Console.log("Player: " + name);
-        Console.log("Cards: " + handSize());
+        books += checkBooks();
+        Console.log("{ Player= [" + name + "], Cards=[" + handSize() + "], Books=[" + books + "], ID=[" + id +"]}");
     }
 
     @Override
@@ -41,7 +46,4 @@ public class GoFishPlayer extends GoFishHand implements User {
     }
 
 
-    public boolean isGoFish() {
-        return goFish;
-    }
 }

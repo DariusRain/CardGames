@@ -3,6 +3,8 @@ package card.materials;
 import card.utils.generators.SynchronousCardGenerator;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class StandardDeck implements Deck {
     private ArrayList<String> cards = new ArrayList<>();
@@ -24,9 +26,7 @@ public class StandardDeck implements Deck {
      * Clears out Set for a new round of blackjack.
      * @return Nothing
      */
-    public void reset() {
-        cards.clear();
-    }
+    public void reset() { Collections.shuffle(cards); }
 
     public void init() {
         while (cards.size() < 52) {

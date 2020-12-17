@@ -13,7 +13,7 @@ import card.materials.Parser;
  *   it contains.
 * </p>
  * @see Parser
- * @see Parser#cardValue(String, int)
+// * @see Parser#(String, int)
 * @author  Darius Rain
 * @version 1.1
 * @since   20-11-24
